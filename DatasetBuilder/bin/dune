@@ -1,0 +1,9 @@
+(executable
+ (public_name DatasetBuilder)
+ (name main)
+ (libraries DatasetBuilder))
+(menhir 
+    (flags (--explain --dump))
+    (modules parser))
+(ocamllex
+    lexer)
