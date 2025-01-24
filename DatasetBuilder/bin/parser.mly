@@ -6,16 +6,23 @@
 
 %token <Song.note> NOTE
 %token <char * string> CONFIG_LINE
+%token BAR
+%token FINISH_BAR
 %token EOF
 %%
 
 sheet:
-  | c = cfg_lines ns = notes EOF {(c, ns)}
+  | c = cfg_lines bs = bars EOF {(c, Song bs)}
 
 cfg_lines : 
   | {empty_cfg}
   | cl = CONFIG_LINE rest = cfg_lines {SongConfig.add (fst cl) (snd cl) rest}
 
+bars:
+  | n = notes FINISH_BAR
+    {[Bar n]}
+  | n = notes BAR rest = bars
+    { (Bar n) :: rest}
 notes:
   | {[]}
   | n = NOTE rest = notes {n :: rest}
