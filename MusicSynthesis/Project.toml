@@ -1,0 +1,18 @@
+name = "MusicSynthesis"
+uuid = "88fd5009-1144-4279-a8b0-fdcf61af25c8"
+authors = ["Krzysztof Wasielewski <krzychuwas@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Herb = "c09c6b7f-4f63-49de-90d9-97a3563c0f4a"
+HerbGrammar = "4ef9e186-2fe5-4b24-8de7-9f7291f24af7"
+HerbSearch = "3008d8e8-f9aa-438a-92ed-26e9c7b4829f"
+PortMidi = "42b16160-194f-40b3-8419-7a13c10fa643"
+PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+
+[compat]
+Herb = "0.4.1"
+HerbGrammar = "0.5.0"
+HerbSearch = "0.4.1"
+PortMidi = "0.1.0"
+PyCall = "1.96.4"
