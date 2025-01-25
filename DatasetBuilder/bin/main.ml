@@ -3,17 +3,20 @@ open Lexer
 open Parser
 open Song
 
-let rec print_music xs = 
-  match xs with
-  | Song.Note n :: xs -> print_string n; print_char ' '; print_music xs
-  | [] -> print_newline ()
-
-
-
 (* print productions *)
 let rec print_notes = function
   | [] -> () 
-  | Note n :: rest -> print_string n; print_newline (); print_notes rest
+  | Note (a, n, i, l) :: rest 
+    -> print_string "Note ";
+    (match a with 
+      | Some v -> print_char v;
+      | _ -> ()); 
+      print_char n;
+      print_newline ();
+      (if i != 0 then
+         (print_string "Shift "; print_int i; print_newline ()));
+      print_string "Len "; (if fst l then print_char '/'); print_int (snd l); print_newline (); 
+      print_notes rest
 let rec print_bars = function
   | [] ->  ()
   | Bar ns :: rest -> print_endline "Bar"; print_notes ns; print_bars rest
