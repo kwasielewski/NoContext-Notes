@@ -24,3 +24,7 @@ docs/site/
 Manifest.toml
 
 DatasetBuilder/_build/
+
+# Dataset
+run*/
+train.json
