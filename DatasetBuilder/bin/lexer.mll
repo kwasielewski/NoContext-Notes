@@ -16,15 +16,26 @@ rule token = parse
   {new_line lexbuf; token lexbuf}
   | eof
   {EOF}
+  | "[M:" digits "/" digits "]" {token lexbuf}
   | "|]" {FINISH_BAR}
+  | "||" {FINISH_BAR}
   | "|"  {BAR}
+  | "|1"  {BAR}
+  | "|:"  {BAR}
+  | ":|2"  {BAR}
+  | "::"  {BAR}
   | whitespace {token lexbuf}
   | any_letter as k ":" cfg_chars as v {CONFIG_LINE((k,v))}
 
-  | (['^' '=' '_']? as accidental)
+  | ('"')? 
+    (['^' '=' '_']? as accidental)
     ((['A'-'G'] (','*) | ['a'-'g'] ('\''*)) as letter_with_octave)
     (('/'?) as slash)
     (['2' '4' '8']? as len)
+    ('m'?)
+    ['0' - '9']*
+    ('"')?
+    ('>')?
     {
       let l = match slash, len with
         | "", "" -> false, 1
