@@ -23,10 +23,10 @@ for idx, song in enumerate(songs[:len_]):
         wrong_songs += [song]
     
     if idx % 100 == 0:
-        print(idx)
+        print(100.0*idx/len_,"%", sep='')
 
 print(f"Res: {len_ - count}/{len_}")
-print(f"Res: {(len_ - count) * (len(songs) / len_)}")
+print(f"Pred res: {(len_ - count) * (len(songs) / len_)}")
 
 with open(f'{catalog_name}/bad.json', 'w') as f:
     json.dump(wrong_songs, f)
