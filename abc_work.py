@@ -8,7 +8,7 @@ with open("train.json") as tf:
 
 count = 0
 wrong_songs = []
-len_ = 1000
+len_ = len(songs)
 
 catalog_name = f'run{datetime.now().strftime("%Y-%m-%d%H-%M-%S")}'
 os.mkdir(catalog_name)
