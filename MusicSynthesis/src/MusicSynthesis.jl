@@ -6,6 +6,7 @@ using HerbGrammar, HerbSearch
 using PortMidi
 using PyCall
 using Distributions, Random
+using Flux
 
 include("./config.jl")
 include("./grammar.jl")

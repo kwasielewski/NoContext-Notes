@@ -5,6 +5,7 @@ version = "0.1.0"
 
 [deps]
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
 Herb = "c09c6b7f-4f63-49de-90d9-97a3563c0f4a"
 HerbGrammar = "4ef9e186-2fe5-4b24-8de7-9f7291f24af7"
 HerbSearch = "3008d8e8-f9aa-438a-92ed-26e9c7b4829f"
@@ -15,6 +16,7 @@ TextEncodeBase = "f92c20c0-9f2a-4705-8116-881385faba05"
 
 [compat]
 Distributions = "0.25.117"
+Flux = "0.16.2"
 Herb = "0.4.1"
 HerbGrammar = "0.5.0"
 HerbSearch = "0.4.1"

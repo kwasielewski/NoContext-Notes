@@ -5,7 +5,7 @@ basic_grammar = HerbGrammar.@cfgrammar begin
     Bar    = ("",)
     Bar    = (Note, Bar)
     Note   = ("Note ", Pitch, "\n", Length, "\n")
-    Pitch  = |(-12:12)
+    Pitch  = |(-25:25)
     Length = ("Len ", LenVal)
     Length = ("Len /", LenVal)
     LenVal = |([1, 2, 4, 8])
@@ -15,7 +15,7 @@ const gh = Hole(BitVector())
 
 # simple deterministic automaton that returns possible transitions
 function basic_parser(cur::Vector{String})
-    res = falses(35) # size of grammar - 2 productions to empty string
+    res = falses(61) # size of grammar - 2 productions to empty string
     if length(cur) == 0
         res[1] = true
         return res
@@ -26,20 +26,20 @@ function basic_parser(cur::Vector{String})
         return res
     end
     if startswith(last, "Bar")
-        for i in 3:27
+        for i in 3:53
             res[i] = true
         end
         return res
     end
     if startswith(last, "Note")
-        for i in 28:35
+        for i in 54:61
             res[i] = true
         end
         return res
     end
     if startswith(last, "Len")
         res[2] = true
-        for i in 3:27
+        for i in 3:53
             res[i] = true
         end
         return res

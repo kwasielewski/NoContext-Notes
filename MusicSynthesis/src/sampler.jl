@@ -14,7 +14,7 @@ end
 
 
 
-function sampler(modules::PythonModules, prob_estimator, cur::Vector{String})
+function sampler(modules::PythonModules, models::Models, prob_estimator, cur::Vector{String})
     # feed the current series of tokens to network
     # get the probability
     # normalize by legal moves
@@ -24,7 +24,7 @@ function sampler(modules::PythonModules, prob_estimator, cur::Vector{String})
     encoded = modules.tokenizer.encode(text_input)
     #current grammar accepts almost all tokens 
     
-    probs = prob_estimator(cur)
+    probs = prob_estimator(cur, modules, models)
     legal = basic_parser(cur)
     
     probs = [if legal[i] probs[i] else 0 end for i in eachindex(probs)]
@@ -50,16 +50,22 @@ function sampler(modules::PythonModules, prob_estimator, cur::Vector{String})
 
 end
 
-function sampler!(modules::PythonModules, prob_estimator, cur::Vector{String})
-    idx = sampler(modules, prob_estimator, cur)
+function sampler!(modules::PythonModules, models::Models, prob_estimator, cur::Vector{String})
+    idx = sampler(modules, models, prob_estimator, cur)
     decoded = modules.tokenizer.token_to_abc[idx-1] 
     push!(cur, decoded)
     return cur
 end
 
+function model_estimator(prods::Vector{String}, modules, models)
+    input_seq = map(x->modules.tokenizer.abc_to_token[x], prods)
+    output = models.model(modules.torch.tensor([input_seq]))
+    probs = temp_softmax(output[1][1][1].detach().numpy())
+end
+
 function uniform_prob(prods::Vector{String}, l)
     return [1/l for _ in 1:l]
 end
-function uniform_estimator(p)
-    return uniform_prob(p, 35)
+function uniform_estimator(p, _, _)
+    return uniform_prob(p, 61)
 end

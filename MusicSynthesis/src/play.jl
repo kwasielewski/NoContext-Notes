@@ -19,16 +19,26 @@ function play_note(stream, note, velocity, duration)
 end
 
 function playback_stop(stream)
-  Pm_Close(stream[])
+  Pm_Close(stream)
 end
 
-function live_play(stream, modules, prob_estimator, cur, notes_count)
+function truncate(cur::Vector{String}, l)
+  if length(cur) > l
+    return cur[end-l:end]
+  end
+  return cur
+end
+
+function live_play(stream, modules, models, prob_estimator, cur, notes_count)
   notes_played = 0
+  block_size = 25
   for i in 1:notes_count
-    sampler!(modules, prob_estimator, cur)
+    cur = truncate(cur, block_size)
+    sampler!(modules, models, prob_estimator, cur)
     println(cur[end])
     while !startswith(cur[end], "Len")
-      sampler!(modules, prob_estimator, cur)
+      cur = truncate(cur, block_size)
+      sampler!(modules, models, prob_estimator, cur)
       println(cur[end])
     end
     pitch = split(cur[end-1])[2] |> x-> parse(Int, x)
