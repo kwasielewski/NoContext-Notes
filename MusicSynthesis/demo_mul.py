@@ -13,6 +13,7 @@ from mingpt.model import GPT
 from mingpt.trainer import Trainer
 
 set_seed(3407)
+print("Loading trainer")
 
 class AbcTokenizer:
     abc_julia_arr = [
@@ -35,7 +36,7 @@ class AbcTokenizer:
         return len(self.abc_julia_arr)
     
     def encode(self, text: str) -> list[int]:
-        return [self.abc_to_token[l] for l in text.split("\n")]
+        return [self.abc_to_token[l] for l in text.split("\n")[:-1]]
 
     def decode(self, tok: int) -> str:
         return self.token_to_abc[tok]
@@ -110,8 +111,8 @@ class AbcDataset(Dataset):
         h = hash(str(rai[:10]))
             
         inp_split = 'test' if h % 4 == 0 else 'train' # designate 25% of examples as test
-        if inp_split == self.split:
-            break # ok
+        #if inp_split == self.split:
+        #    break # ok
         
         x = torch.tensor(rai[:-1], dtype=torch.long)
         y = torch.tensor(rai[1:], dtype=torch.long)
