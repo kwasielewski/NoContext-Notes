@@ -10,5 +10,6 @@ using Distributions, Random
 include("./config.jl")
 include("./grammar.jl")
 include("./sampler.jl")
+include("./play.jl")
 
 end # module MusicSynthesis

@@ -22,7 +22,7 @@ class AbcTokenizer:
     ] + \
     [f'Note {i}' for i in range(-12, 13)] + \
     [f'Len {i}' for i in [1, 2, 4, 8]] + \
-    [f'Len \\{i}' for i in [1, 2, 4, 8]]
+    [f'Len /{i}' for i in [1, 2, 4, 8]]
 
     @cached_property
     def abc_to_token(self) -> Dict[str, int]:

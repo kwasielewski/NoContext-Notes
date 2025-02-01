@@ -50,6 +50,12 @@ function sampler(modules::PythonModules, prob_estimator, cur::Vector{String})
 
 end
 
+function sampler!(modules::PythonModules, prob_estimator, cur::Vector{String})
+    idx = sampler(modules, prob_estimator, cur)
+    decoded = modules.tokenizer.token_to_abc[idx-1] 
+    push!(cur, decoded)
+    return cur
+end
 
 function uniform_prob(prods::Vector{String}, l)
     return [1/l for _ in 1:l]
