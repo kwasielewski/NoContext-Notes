@@ -62,7 +62,7 @@ class AbcDataset(Dataset):
         random.shuffle(self.data)
     
     def __len__(self):
-        return self.sizes[self.split]
+        return 20000 # ...
 
     def load_data(self):
         data = []
@@ -112,8 +112,13 @@ class AbcDataset(Dataset):
     # 3 15
 
     def __getitem__(self, _):
-        rai = self.get_data(random.randint(0, self.datafiles_len + 1))
-        random_first = random.randint(0, len(rai) - self.length)
+        while True:
+            rai = self.get_data(random.randint(0, self.datafiles_len + 1))
+            if len(rai) - self.length < 0:
+                continue
+
+            random_first = random.randint(0, len(rai) - self.length)
+            break
         
         x = torch.tensor(rai[random_first:random_first+self.length-self.split_part], dtype=torch.long)
         y = torch.tensor(rai[random_first+self.split_part:random_first+self.length], dtype=torch.long)
@@ -172,7 +177,7 @@ def music_split(model, trainer, train_dataset, test_dataset, split, max_batches)
     return rt.sum()
 
 def run():
-    train_dataset, test_dataset = init_dataset("../run2025-02-0115-35-50")
+    train_dataset, test_dataset = init_dataset("../run2025-02-0116-24-01")
     model, trainer = init_model(train_dataset) 
 
     trainer.set_callback('on_batch_end', batch_end_callback)
@@ -203,4 +208,4 @@ def test():
     print(train_dataset.tokenizer.decode(cat.cpu().detach().numpy()[0]))
 
 if __name__ == "__main__":
-    test()
+    run()
